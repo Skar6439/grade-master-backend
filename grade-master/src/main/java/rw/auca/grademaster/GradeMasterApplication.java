@@ -1,4 +1,4 @@
-package rw.auca.grade_master;
+package rw.auca.grademaster;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
