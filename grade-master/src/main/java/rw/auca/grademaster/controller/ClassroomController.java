@@ -43,6 +43,12 @@ public class ClassroomController {
         return new ResponseEntity<>("The classroom with that id does not exist", HttpStatus.NOT_FOUND);
     }
 
+    //C2
+    @GetMapping("/free")
+    public ResponseEntity<List<Classroom>> getFreeClassrooms() {
+        return new ResponseEntity<>(classroomService.getFreeClassrooms(), HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Classroom body) {
         Optional<Classroom> updated = classroomService.updateClassroom(id, body);

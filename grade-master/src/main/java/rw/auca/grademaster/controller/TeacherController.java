@@ -39,6 +39,12 @@ public class TeacherController {
         return new ResponseEntity<>(teacherService.getAllTeachers(), HttpStatus.OK);
     }
 
+    //C1
+    @GetMapping("/by-subject")
+    public ResponseEntity<List<Teacher>> getBySubject(@RequestParam String name) {
+        return new ResponseEntity<>(teacherService.getTeachersBySubject(name), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<Teacher> opt = teacherService.getTeacherById(id);

@@ -45,4 +45,8 @@ public class ClassroomService {
         return "Classroom deleted successfully";
     }
 
+    //C2
+    public List<Classroom> getFreeClassrooms() {
+        return classroomRepository.findFreeClassrooms();
+    }
 }

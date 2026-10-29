@@ -6,14 +6,19 @@ import org.springframework.stereotype.Service;
 
 import rw.auca.grademaster.domain.Student;
 import rw.auca.grademaster.repository.StudentRepository;
+import rw.auca.grademaster.repository.TeacherRepository;
 
 @Service 
 public class StudentService {
     
     private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    
+
+    public StudentService(StudentRepository studentRepository, TeacherRepository teacherRepository) {
         this.studentRepository = studentRepository;
+        this.teacherRepository = teacherRepository;
     }
 
     public String saveStudent(Student student){
@@ -54,5 +59,13 @@ public class StudentService {
 
     public List<Student> getStudentsByLastName(String lastName) {
         return studentRepository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
+
+    //C4
+    public Optional<List<Student>> getStudentsOfTeacher(UUID teacherId) {
+        if (!teacherRepository.existsById(teacherId)) {
+            return Optional.empty(); // This triggers the 404 in the controller
+        }
+        return Optional.of(studentRepository.findStudentsOfTeacher(teacherId));
     }
 }

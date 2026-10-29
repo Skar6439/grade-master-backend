@@ -46,5 +46,8 @@ public class SubjectService {
         return "Subject deleted successfully";
     }
     
-    
+    //C3
+    public List<Subject> getUnusedSubjects() {
+        return subjectRepository.findUnusedSubjects();
+    }
 }

@@ -93,4 +93,8 @@ public class TeacherService {
         return null;
     }
 
+    //C1
+    public List<Teacher> getTeachersBySubject(String name) {
+        return teacherRepository.findTeachersBySubjectName(name);
+    }
 }

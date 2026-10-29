@@ -43,6 +43,12 @@ public class SubjectController {
         return new ResponseEntity<>("The subject with that id does not exist", HttpStatus.NOT_FOUND);
     }
 
+    //C3
+    @GetMapping("/unused")
+    public ResponseEntity<List<Subject>> getUnusedSubjects() {
+        return new ResponseEntity<>(subjectService.getUnusedSubjects(), HttpStatus.OK);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Subject body){
          Optional<Subject> updated = subjectService.updateSubject(id, body);
