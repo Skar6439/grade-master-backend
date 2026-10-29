@@ -35,6 +35,11 @@ public class StudentController {
     public ResponseEntity<List<Student>> getAll() {
         return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
     }
+    
+    @GetMapping("/by-last-name")
+    public ResponseEntity<List<Student>> getByLastName(@RequestParam String lastName) {
+        return new ResponseEntity<>(studentService.getStudentsByLastName(lastName), HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
@@ -58,4 +63,6 @@ public class StudentController {
         }
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+
 }

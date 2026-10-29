@@ -1,5 +1,6 @@
 package rw.auca.grademaster.controller;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import rw.auca.grademaster.domain.Assessment;
+import rw.auca.grademaster.domain.AssessmentStatus;
 import rw.auca.grademaster.service.AssessmentService;
 
 @RestController
@@ -34,6 +36,19 @@ public class AssessmentController {
     @GetMapping("/all")
     public ResponseEntity<List<Assessment>> getAll() {
         return new ResponseEntity<>(assessmentService.getAllAssessments(), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<List<Assessment>> getByStatus(@RequestParam AssessmentStatus status) {
+        return new ResponseEntity<>(assessmentService.getAssessmentsByStatus(status), HttpStatus.OK);
+    }
+
+    @GetMapping("/between")
+    public ResponseEntity<List<Assessment>> getBetween(@RequestParam String start, @RequestParam String end) {
+        // The paper explicitly says: "Parse the Strings into LocalDate in the controller."
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return new ResponseEntity<>(assessmentService.getAssessmentsBetween(startDate, endDate), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

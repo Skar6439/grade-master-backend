@@ -1,10 +1,12 @@
 package rw.auca.grademaster.service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
 
 import rw.auca.grademaster.domain.Assessment;
+import rw.auca.grademaster.domain.AssessmentStatus;
 import rw.auca.grademaster.domain.Student;
 import rw.auca.grademaster.domain.Teacher;
 import rw.auca.grademaster.repository.AssessmentRepository;
@@ -77,5 +79,13 @@ public class AssessmentService {
         }
         assessmentRepository.deleteById(id);
         return "Assessment deleted successfully";
+    }
+
+    public List<Assessment> getAssessmentsByStatus(AssessmentStatus status) {
+        return assessmentRepository.findByStatusOrderByAssessmentDateAsc(status);
+    }
+
+    public List<Assessment> getAssessmentsBetween(LocalDate start, LocalDate end) {
+        return assessmentRepository.findByAssessmentDateBetweenOrderByAssessmentDateAsc(start, end);
     }
 }
