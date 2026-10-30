@@ -43,6 +43,21 @@ public class AssessmentService {
         if (teacherOpt.isEmpty()) return "The teacher with that id does not exist";
         assessment.setTeacher(teacherOpt.get());
 
+        // D1 Rule 1: Past date
+        if (assessment.getAssessmentDate().isBefore(java.time.LocalDate.now())) {
+            return "Assessment date cannot be in the past";
+        }
+
+        // D1 Rule 2: Double booking check (ignore VOIDED)
+        boolean busy = assessmentRepository.existsByTeacherAndAssessmentDateAndStatusNot(
+                assessment.getTeacher(), assessment.getAssessmentDate(), rw.auca.grademaster.domain.AssessmentStatus.VOIDED);
+        if (busy) {
+            return "Teacher already has an assessment on that date";
+        }
+
+        // D1 Rule 3: Always start as PLANNED
+        assessment.setStatus(rw.auca.grademaster.domain.AssessmentStatus.PLANNED);
+        
         assessmentRepository.save(assessment);
         return "Assessment saved successfully";
     }
@@ -61,7 +76,6 @@ public class AssessmentService {
 
         Assessment a = existing.get();
         a.setAssessmentDate(body.getAssessmentDate());
-        a.setStatus(body.getStatus());      // will be dropped in D2
         a.setTitle(body.getTitle());
 
         if (body.getStudent() != null && body.getStudent().getId() != null) {
@@ -87,5 +101,28 @@ public class AssessmentService {
 
     public List<Assessment> getAssessmentsBetween(LocalDate start, LocalDate end) {
         return assessmentRepository.findByAssessmentDateBetweenOrderByAssessmentDateAsc(start, end);
+    }
+
+    public String changeAssessmentStatus(UUID id, rw.auca.grademaster.domain.AssessmentStatus newStatus) {
+        Optional<Assessment> existing = assessmentRepository.findById(id);
+        if (existing.isEmpty()) return "The assessment with that id does not exist";
+        
+        Assessment a = existing.get();
+        rw.auca.grademaster.domain.AssessmentStatus current = a.getStatus();
+        
+        boolean allowed = false;
+        if (current == rw.auca.grademaster.domain.AssessmentStatus.PLANNED) {
+            allowed = (newStatus == rw.auca.grademaster.domain.AssessmentStatus.SUBMITTED || newStatus == rw.auca.grademaster.domain.AssessmentStatus.VOIDED);
+        } else if (current == rw.auca.grademaster.domain.AssessmentStatus.SUBMITTED) {
+            allowed = (newStatus == rw.auca.grademaster.domain.AssessmentStatus.MARKED || newStatus == rw.auca.grademaster.domain.AssessmentStatus.VOIDED);
+        }
+        
+        if (!allowed) {
+            return "Cannot change status from " + current + " to " + newStatus;
+        }
+        
+        a.setStatus(newStatus);
+        assessmentRepository.save(a);
+        return "Assessment status updated successfully";
     }
 }

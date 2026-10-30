@@ -27,6 +27,9 @@ public class AssessmentController {
         if (message.equals("Assessment saved successfully")) {
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }
+        if (message.equals("Teacher already has an assessment on that data")){
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
         if (message.startsWith("The ") || message.startsWith("That ")) {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
@@ -70,6 +73,18 @@ public class AssessmentController {
         String message = assessmentService.deleteAssessment(id);
         if (message.equals("The assessment with that id does not exist")) {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> changeStatus(@PathVariable UUID id, @RequestParam AssessmentStatus status){
+        String message = assessmentService.changeAssessmentStatus(id, status);
+        if (message.equals("The assessment with that id does not exist")){
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+        if (message.startsWith("Cannot change status")){
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

@@ -14,5 +14,8 @@ public interface TeacherRepository extends JpaRepository<Teacher, UUID>{
     @Query("SELECT DISTINCT t FROM Teacher t JOIN t.subjects s WHERE LOWER(s.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<Teacher> findTeachersBySubjectName(@Param("name") String name);
 
+    //D4: to check if room is taken or not
+    boolean existsByClassroom(rw.auca.grademaster.domain.Classroom classroom);
+
 
 }

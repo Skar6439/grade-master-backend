@@ -13,4 +13,11 @@ public interface AssessmentRepository extends JpaRepository<Assessment, UUID>{
 
     // B3: Between dates (inclusive), OrderBy date
     List<Assessment> findByAssessmentDateBetweenOrderByAssessmentDateAsc(LocalDate start, LocalDate end);
+
+    //D1: to check teacher double-booking
+    boolean existsByTeacherAndAssessmentDateAndStatusNot(
+        rw.auca.grademaster.domain.Teacher teacher, 
+        java.time.LocalDate assessmentDate, 
+        rw.auca.grademaster.domain.AssessmentStatus status
+    );
 }

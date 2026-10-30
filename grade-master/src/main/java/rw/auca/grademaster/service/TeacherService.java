@@ -97,4 +97,43 @@ public class TeacherService {
     public List<Teacher> getTeachersBySubject(String name) {
         return teacherRepository.findTeachersBySubjectName(name);
     }
+
+    //D3
+    public String addSubjectToTeacher(UUID teacherId, UUID subjectId) {
+        Optional<Teacher> teacherOpt = teacherRepository.findById(teacherId);
+        if (teacherOpt.isEmpty()) return "The teacher with that id does not exist";
+        
+        Optional<Subject> subjectOpt = subjectRepository.findById(subjectId);
+        if (subjectOpt.isEmpty()) return "That subject does not exist";
+        
+        Teacher t = teacherOpt.get();
+        Subject s = subjectOpt.get();
+        
+        if (t.getSubjects().contains(s)) {
+            return "The teacher already has that subject";
+        }
+        
+        t.getSubjects().add(s);
+        teacherRepository.save(t);
+        return "Subject added to the teacher";
+    }
+
+    //D4: in order to update data without conflit
+    public String changeClassroom(UUID teacherId, int roomNumber){
+        Optional<Teacher> teacherOpt = teacherRepository.findById(teacherId);
+        if (teacherOpt.isEmpty()) return "The teacher with that id does not exist";
+
+        Optional<Classroom> classroomOpt = classroomRepository.findByRoomNumber(roomNumber);
+        if (classroomOpt.isEmpty()) return "The classroom with that roomNumber does not exist";
+
+        Teacher t = teacherOpt.get();
+        Classroom c = classroomOpt.get();
+
+        if (teacherRepository.existsByClassroom(c)){
+            return "That classroom is taken by another teacher";
+        }
+        t.setClassroom(c);
+        teacherRepository.save(t);
+        return "Classroom changed successfully";
+    }
 }
