@@ -1,0 +1,361 @@
+{
+  "info": {
+    "_postman_id": "ae9641b2-d104-4c31-b4ac-0c56fe0d770d",
+    "name": "grade-master",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56685943",
+    "_collection_link": "https://go.postman.co/collection/56685943-ae9641b2-d104-4c31-b4ac-0c56fe0d770d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "A2-delete-subject-404",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/subjects/delete/a03254cf-ec65-4cef-a2e6-a2d77679f819",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "subjects",
+            "delete",
+            "a03254cf-ec65-4cef-a2e6-a2d77679f819"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1-failling-case",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/students/by-last-name?lastName=xyz",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "students",
+            "by-last-name"
+          ],
+          "query": [
+            {
+              "key": "lastName",
+              "value": "xyz"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C4-students-of-teacher",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/students/of-teacher/48e02ec3-fa20-4007-b705-1f18461344cf",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "students",
+            "of-teacher",
+            "48e02ec3-fa20-4007-b705-1f18461344cf"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D3-add-subject-to-teacher",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/teachers/48e02ec3-fa20-4007-b705-1f18461344cf/subjects/f2038aa6-061e-43ac-9082-267e3a77112c",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teachers",
+            "48e02ec3-fa20-4007-b705-1f18461344cf",
+            "subjects",
+            "f2038aa6-061e-43ac-9082-267e3a77112c"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E1-adding-grade-report",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"letterGrade\": \"A\",\r\n  \"comment\": \"Excellent work\",\r\n  \"score\": 92\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/grade-reports/save?assessmentId=5975f282-b338-45ec-b7e1-8cab17d0b7fb",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "grade-reports",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "assessmentId",
+              "value": "5975f282-b338-45ec-b7e1-8cab17d0b7fb"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/assessments/stats/by-status",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "assessments",
+            "stats",
+            "by-status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/assessments/cancel-day?teacherId=48e02ec3-fa20-4007-b705-1f18461344cf&date=2026-10-20",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "assessments",
+            "cancel-day"
+          ],
+          "query": [
+            {
+              "key": "teacherId",
+              "value": "48e02ec3-fa20-4007-b705-1f18461344cf"
+            },
+            {
+              "key": "date",
+              "value": "2026-10-20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus-summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/dashboard/summary",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "dashboard",
+            "summary"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus-pagination",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/assessments/page?page=0&size=5&sort=assessmentDate,desc",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "assessments",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            },
+            {
+              "key": "sort",
+              "value": "assessmentDate,desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subjects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/subjects/all",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "subjects",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Classrooms",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/classrooms/all",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "classrooms",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Teachers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/teachers/all",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teachers",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Students",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/students/all",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "students",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Assessments",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/assessments/all",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "assessments",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GradeReports",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/grade-reports/all",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "grade-reports",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
