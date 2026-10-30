@@ -3,6 +3,7 @@ package rw.auca.grademaster.controller;
 import java.time.LocalDate;
 import java.util.*;
 
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,24 @@ public class AssessmentController {
         return new ResponseEntity<>(assessmentService.getAssessmentsBetween(startDate, endDate), HttpStatus.OK);
     }
 
+    @GetMapping("/stats/by-status")
+    public ResponseEntity<List<Object[]>> getStatsByStatus(){
+        return new ResponseEntity<>(assessmentService.getAssessmentCountByStatus(),HttpStatus.OK);
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Assessment>> getPage(
+            @RequestParam int page, 
+            @RequestParam int size, 
+            @RequestParam String sort) {
+            
+        String[] parts = sort.split(",");
+        Sort.Direction direction = Sort.Direction.fromString(parts[1]);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, parts[0]));
+        
+        return new ResponseEntity<>(assessmentService.getAssessmentsPage(pageable), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<Assessment> opt = assessmentService.getAssessmentById(id);
@@ -78,6 +97,13 @@ public class AssessmentController {
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    //F2
+    @PatchMapping("/cancel-day")
+    public ResponseEntity<String> cancelDay(@RequestParam UUID teacherId, @RequestParam String date){
+        LocalDate parsDate = LocalDate.parse(date);
+        return new ResponseEntity<>(assessmentService.cancelDayForTeacher(teacherId, parsDate), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/status")

@@ -3,7 +3,9 @@ package rw.auca.grademaster.service;
 import java.time.LocalDate;
 import java.util.*;
 
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import rw.auca.grademaster.domain.Assessment;
 import rw.auca.grademaster.domain.AssessmentStatus;
@@ -131,5 +133,22 @@ public class AssessmentService {
         a.setStatus(newStatus);
         assessmentRepository.save(a);
         return "Assessment status updated successfully";
+    }
+
+    //F1
+    public List<Object[]> getAssessmentCountByStatus(){
+        return assessmentRepository.countAssessmentsByStatus();
+    }
+
+    //F2
+    @Transactional 
+    public String cancelDayForTeacher(UUID teacherId, LocalDate date){
+        int count = assessmentRepository.cancelAssessmentsForTeacherOnDay(teacherId, date, AssessmentStatus.VOIDED, AssessmentStatus.MARKED);
+        return count + " assessments cancelled";
+    }
+
+    //Bonus
+    public Page<Assessment> getAssessmentsPage(Pageable pageable){
+        return assessmentRepository.findAll(pageable);
     }
 }
