@@ -10,6 +10,7 @@ import rw.auca.grademaster.domain.AssessmentStatus;
 import rw.auca.grademaster.domain.Student;
 import rw.auca.grademaster.domain.Teacher;
 import rw.auca.grademaster.repository.AssessmentRepository;
+import rw.auca.grademaster.repository.GradeReportRepository;
 import rw.auca.grademaster.repository.StudentRepository;
 import rw.auca.grademaster.repository.TeacherRepository;
 
@@ -19,13 +20,14 @@ public class AssessmentService {
     private final AssessmentRepository assessmentRepository;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
+    private final GradeReportRepository gradeReportRepository;
 
-    public AssessmentService(AssessmentRepository assessmentRepository,
-                             StudentRepository studentRepository,
-                             TeacherRepository teacherRepository) {
+    public AssessmentService(AssessmentRepository assessmentRepository, StudentRepository studentRepository,
+            TeacherRepository teacherRepository, GradeReportRepository gradeReportRepository) {
         this.assessmentRepository = assessmentRepository;
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
+        this.gradeReportRepository = gradeReportRepository;
     }
 
     public String saveAssessment(Assessment assessment) {
@@ -88,10 +90,15 @@ public class AssessmentService {
     }
 
     public String deleteAssessment(UUID id) {
-        if (!assessmentRepository.existsById(id)) {
+        Optional<Assessment> assessmentOpt = assessmentRepository.findById(id);
+        if (assessmentOpt.isEmpty()) {
             return "The assessment with that id does not exist";
         }
-        assessmentRepository.deleteById(id);
+        Assessment assessment = assessmentOpt.get();
+        if(gradeReportRepository.existsByAssessment(assessment)){
+            return "That assessment has grade reports, delete them first";
+        }
+        assessmentRepository.delete(assessment);
         return "Assessment deleted successfully";
     }
 
